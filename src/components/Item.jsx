@@ -12,7 +12,8 @@ function Item(props) {
   const url = getImageUrl(props.item.image);
 
   return (
-    <div className="item">
+    <div className="item"
+    onClick={()=>{props.handlePurchase(props.item.id)}}>
       <div className="item_icon"><img src={url} alt=""/></div>
       <div className="item_desc">
         {props.item.name}<br/>
