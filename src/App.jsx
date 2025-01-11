@@ -49,8 +49,8 @@ function App() {
           // Lasketaan ostettavissa olevien tuotteiden lukumäärä.
           newstats.itemstobuy = countBuyableItems(newstoreitems,newstats.balance);
 
-      // Tehdään kopiot tilamuuttujista.
-      let newstoreitems = [...storeitems];
+            // Tehdään kopiot tilamuuttujista.
+            let newstoreitems = JSON.parse(JSON.stringify(storeitems));
       let newstats = {...stats};
       // Kasvatetaan tuotteiden määrää yhdellä.
       newstoreitems[index].qty++;
@@ -79,6 +79,12 @@ function App() {
       setStats(newstats);
     }
   }
+  const handleReset = () => {
+    // Päivitetään tilamuuttujat alkuarvoihin.
+    setStats(initialstats);
+    setStoreitems(items);
+  }
+
 
     // Laskee niiden tuotteiden lukumäärän, joiden ostamiseen on varaa.
     const countBuyableItems = (items, balance) => {
@@ -92,10 +98,11 @@ function App() {
   
 
   return (
-    <AppRouter stats={stats} 
-    storeitems={storeitems} 
-    handleClick={handleClick} 
-    handlePurchase={handlePurchase} />
+    <AppRouter stats={stats}
+    storeitems={storeitems}
+    handleClick={handleClick}
+    handlePurchase={handlePurchase}
+    handleReset={handleReset} />
 
   )
 
