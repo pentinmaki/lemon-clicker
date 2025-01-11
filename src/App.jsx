@@ -4,11 +4,12 @@ import AppRouter from './components/AppRouter';
 import items from './config/items.js';
 import round from './utils/round';
 import getPurchasableItems from './utils/getPurchasableItems';
+import useLocalStorage from './utils/useLocalStorage';
 
 function App() {
 
-  // Luodaan tilamuuttuja, johon tallennetaan tuotelista.
-  const [storeitems,setStoreitems] = useState(items);
+  // Luodaan taltio, johon tallennetaan tuotelista.
+  const [storeitems,setStoreitems, resetStoreitems] = useLocalStorage('lemon-items',items);
 
       // Esitellään pelin laskennalliset alkuarvot.
   const initialstats = {
@@ -20,8 +21,8 @@ function App() {
     collected: 0
   }
 
-  // Luodaan tilamuuttuja, johon tallennetaan pelin laskennalliset tiedot.
-  const [stats, setStats] = useState(initialstats);
+  // Luodaan taltio, johon tallennetaan pelin laskennalliset tiedot.
+  const [stats, setStats, resetStats] = useLocalStorage('lemon-stats',initialstats);
   const handleClick = () => {
     // Tehdään kopio stats-tilamuuttujasta.
     let newstats = {...stats}
@@ -80,10 +81,11 @@ function App() {
     }
   }
   const handleReset = () => {
-    // Päivitetään tilamuuttujat alkuarvoihin.
-    setStats(initialstats);
-    setStoreitems(items);
+    // Palautetaan taltiot alkuarvoihin.
+    resetStats();
+    resetStoreitems();
   }
+
 
 
     // Laskee niiden tuotteiden lukumäärän, joiden ostamiseen on varaa.
