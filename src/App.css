@@ -1,0 +1,368 @@
+@import url('https://fonts.googleapis.com/css2?family=Boogaloo&family=Roboto+Condensed:wght@400;700&display=swap');
+
+/* -- Värimäärittelyt ------------------------------------------------- */
+
+:root {
+  --primary: #FFB600;
+  --secondary: #E84855;
+  --neutral-lightest: #FFFFFF;
+  --neutral-light: #F3F3F3;
+  --neutral: #EBEBEB;
+  --neutral-dark: #999999;
+  --neutral-darker: #666666;
+  --neutral-darkest: #000000;
+}
+
+/* -- yhteiset tyylimääritykset --------------------------------------- */
+
+* {
+  box-sizing: border-box;  /* kehys, marginaali ja täyte lasketaan laatikon kokoon */
+  margin: 0;               /* nollataan oletusmarginaalit */
+  padding: 0;              /* nollataan oletustäytteet */
+}
+
+body {
+  background-color: var(--neutral);             /* sovelluksen taustaväri */
+  color: var(--neutral-darker);                   /* sovelluksen tekstiväri */
+  font-family: 'Roboto Condensed', sans-serif;  /* sovelluksen fontti */
+  font-size: 1.25em;                            /* sovelluksen tekstin koko */
+}
+
+h1 {
+  font-family: 'Boogaloo', cursive;             /* otsikon fontti */
+  font-weight: normal;                          /* otsikon paksuus */
+}
+
+/* -- Responsiivinen ulkoasu ------------------------------------------ 
+
+  .- root ----------------------------------------------.        --+
+  |  .- root_content --------------------------------.  |   --+    |
+  |  |  .- container -----------------------------.  |  |     |    |
+  |  |  |  .- header --------------------------.  |  |  |     |    |
+  |  |  |  |            lemon clicker          |  |  |  |     |    |
+  |  |  |  '-----------------------------------'  |  |  |     |    |
+  |  |  |  .- balance -------------------------.  |  |  |     |    |
+  |  |  |  |                           lemons  |  |  |  |     |    |
+  |  |  |  |                              571  |  |  |  |     |    |
+  |  |  |  '-----------------------------------'  |  |  |   auto   |
+  |  |  |  .- lemon ---------------------------.  |  |  |     |    |
+  |  |  |  |                                   |  |  |  |     |  100vh
+  |  |  |  |             L E M O N             |  |  |  |     |    |
+  |  |  |  |                                   |  |  |  |     |    |
+  |  |  |  '-----------------------------------'  |  |  |     |    |
+  |  |  |  .- booster -------------------------.  |  |  |     |    |
+  |  |  |  |         3.2 lemons / click        |  |  |  |     |    |
+  |  |  |  '-----------------------------------'  |  |  |     |    |
+  |  |  '-----------------------------------------'  |  |     |    |
+  |  '-----------------------------------------------'  |   --+    |
+  |  .- menu ----------------------------------------.  |   --+    |
+  |  |      GAME           STORE        SETTINGS     |  |   5.5em  |
+  |  '-----------------------------------------------'  |   --+    |
+  '-----------------------------------------------------'        --+
+                                                       
+  |----------------- min 15em, max 26em ----------------|
+*/
+
+/* -- Useamman komponentin yhteiset määritykset ----------------------- */
+
+.container {
+  height: 100%;                        /* käytetään koko käytettävissä oleva korkeus */
+  display: flex;                       /* käytetään flexboxia juoksutukseen */
+  flex-direction: column;              /* elementin sijoittuvat ylhäältä alas */
+}
+
+.scrollbox {
+  overflow-y: auto;                                        /* vierityspalkki näytetään tarvittaessa */
+  scrollbar-color: var(--neutral-light) var(--neutral);    /* vierityspalkin värit Firefoxille */
+}
+
+.scrollbox::-webkit-scrollbar {
+  width: 0.3em;                                            /* vierityspalkin leveys */
+}
+
+.scrollbox::-webkit-scrollbar-thumb {
+  background: var(--neutral-light);                        /* vierityspalkin väri */
+}
+
+.scrollbox::-webkit-scrollbar-track {
+  background: var(--neutral);                              /* vierityspalkin taustaväri */
+}
+
+/* -- Root-komponentti ------------------------------------------------ */
+
+.root {
+  height: 100vh;             /* käytetään koko selainikkunan korkeus */
+  max-width: 26em;           /* sovelluksen maksimileveys */
+  min-width: 15em;           /* sovelluksen minimileveys */
+  margin: 0 auto;            /* keskitys ruudun keskelle */   
+  display: flex;             /* käytetään flexboxia */
+  flex-direction: column;    /* juoksutus ylhäältä alas */
+  padding: 2em;              /* ilmavuutta reunoille */
+}
+
+.root > * {
+  flex: 1 1 auto;            /* root-elementin lapset käyttävät oletuksena saamansa tilan */
+}
+
+.root_content {
+  overflow: hidden;          /* katkaistaan ylipitkä sivun sisältö */ 
+}
+
+/* -- Menu-komponentti ------------------------------------------------ */
+
+.menu {
+  display: flex;                       /* käytetään flexboxia */
+  max-height: 5.5em;                   /* menualueen maksimikorkeus */
+  min-height: 5.5em;                   /* menualueen minimikorkeus */ 
+  align-items: center;                 /* keskitetään ikonit pystysuunnassa,
+                                          NavLink-komponentin a-elementti lisää ikonin alle tyhjän tilan :( */
+  justify-content: space-around;       /* sijoitetaan ikonit tasaisesti vaakasuunnassa */  
+}
+
+.menu a {
+  opacity: 0.5;                        /* kaikki menuikonit ovat läpinäkyvyviä */
+}
+
+.menu img {
+  height: 3.5em;                       /* menuikonien koko */   
+}
+
+.menu a.active {
+  opacity: 1;                          /* korostetaan aktiivinen menuelementti */
+}
+
+.menu div {
+  position: relative;                  /* menuelementin sijainniksi suhteellinen (menu_badge) */
+}
+
+.menu_badge {
+  display: block;                                /* elementistä lohkotason elementti */
+  background-color: var(--neutral-darkest);      /* taustaväri (ei aktiivinen) */
+  color: var(--neutral);                         /* tekstiväri (ei aktiivinen) */
+  position: absolute;                            /* sijainti absoluuttinen suhteessa ikoniin */
+  top: -0.5em;                                   /* yläreunasta hieman alaspäin */
+  right: -0.5em;                                 /* oikeasta reunasta hieman vasemmalle */ 
+  height: 2em;                                   /* korkeus */
+  width: 2em;                                    /* leveys */ 
+  padding: 0.5em;                                /* täyte */
+  border-radius: 50%;                            /* muutetaan ympyräksi */
+  font-size: 0.75em;                             /* tekstin koko */
+  line-height: 1em;                              /* tekstirivin korkeus = korkeus - täyte */
+  text-align: center;                            /* tekstin keskitys */
+  font-weight: bold;                             /* tekstin lihavointi */
+}
+
+a.active .menu_badge {
+  background-color: var(--primary);              /* taustaväri (aktiivinen) */
+  color: var(--neutral-darkest);                 /* tekstiväri (aktiivinen) */
+}
+
+/* -- Clicker-komponentti --------------------------------------------- */
+
+.clicker {
+  justify-content: space-evenly;        /* jaetaan tasaisesti pystysuunnassa */
+}
+
+/* -- Header-komponentti ---------------------------------------------- */
+
+.header {
+  display: flex;                       /* käytetään flexboxia */
+  justify-content: center;             /* keskitetään sisältö */
+  align-items: baseline;               /* tekstit alkavat samasta tasosta */
+  color: var(--neutral-darkest);       /* tekstin väri */ 
+}
+
+.header_sub {
+  justify-content: space-between;      /* sijoitus kumpaakin reunaan */
+  margin-bottom: 1em;                  /* alareunan marginaali */
+}
+
+.header h1 {
+  font-size: 4.5em;                    /* pääsivun otsikon koko */
+}
+
+.header_sub h1 {
+  font-size: 3em;                      /* alasivun otsikon koko */
+}
+
+.header_sub div {
+  display: flex;                       /* käytetään flexboxia */
+  align-items: center;                 /* keskitetään pystysuunnassa */
+  font-size: 1.35em;                   /* tekstin koko */
+}
+
+.header_sub img {
+  height: 0.9em;                       /* sitruuna-ikonin koko */
+  margin-left: 0.2em;                  /* vasemman reunan marginaali */
+}
+
+/* -- Balance-komponentti --------------------------------------------- */
+
+.balance {
+  font-size: 1.5em;                    /* tekstin koko */ 
+  text-align: right;                   /* asemoidaan oikeaan reunaan */
+}
+
+.balance_total {
+  font-size: 2.2em;                    /* luvun tekstikoko */
+  color: var(--primary);               /* luvun värinä tehoste*/
+  margin-top: -0.15em;                 /* viedään lukua lähemmäs selitetekstiä */
+  font-weight: bold;                   /* teksti lihavoitu */
+}
+
+/* -- Lemon-komponentti ----------------------------------------------- */
+
+.lemon {
+  width: 60%;                          /* kuvan leveys 60% alueen leveydestä */
+  margin: 0 auto;                      /* keskitetään kuva */
+}
+
+.lemon img {
+  width: 100%;                         /* skaalataan kuva täyttämään kuvalle varattu alue */
+}
+
+.lemon img:active {
+  -webkit-animation: beat 0.1s ease-in-out backwards;       /* kuvan animaation */
+          animation: beat 0.1s ease-in-out backwards;       /* kuvan animaation */
+}
+
+@keyframes beat {                                /* animaatiomääriteykset */
+  0% {
+    -webkit-transform: scale(1, 1);              /* lähtötilanteessa kuva täysikokoinen */
+            transform: scale(1, 1);
+  }
+  100% {
+    -webkit-transform: scale(0.9, 0.9);          /* skaalataan kuva animaatiossa pienemmäksi */
+            transform: scale(0.9, 0.9);          /* animaation jälkeen kuva palaa alkuperäiseen kokoon */
+  }
+}
+
+/* -- booster-div ----------------------------------------------------- */
+
+.booster {
+  text-align: center;                  /* teksti asemoidaan keskelle */
+}
+
+/* -- Item-komponentti ----------------------------------------------- */
+
+.item {
+  display: flex;                                 /* käytetään sijoittelussa flexboxia */
+  justify-content: space-between;                /* asemoidaan sisältö sekä vasempaan että oikeaan */
+  background-color: var(--neutral-light);        /* laatikon taustaväri */
+  padding: 0.5em;                                /* laatikon sisälle pieni täyte */
+  border-radius: 0.5em;                          /* laatikon reunojen pyöristys */
+  align-items: center;                           /* keskitetään sisältö pystysuunnassa */
+  margin-bottom: 0.75em;                         /* marginaali laatikon alareunaan */
+}
+
+.item-disabled {
+  opacity: 0.5;                                  /* osittain läpinäkyvä jos ei valittavissa */
+}
+
+.item_icon {
+  width: 4em;                                    /* ikonialueen koko */
+  text-align: center;                            /* keskitetään ikoni keskelle aluetta */
+}
+
+.item_icon img {
+  width: 3em;                                    /* ikonikuvan koko */ 
+}
+
+.item_desc {
+  flex: 1;                                       /* kuvaus käyttää käytetettävissä olevan tilan */
+  line-height: 1.5em;                            /* tekstirivin korkeus */
+}
+
+.item_desc img {
+  height: 0.75em;                                /* hintaikonikuvan koko */
+}
+
+.item_qty {
+  font-size: 2.5em;                              /* kappalemäärän fonttikoko */
+  color: var(--primary);                         /* kappalemäärän väri */
+  font-weight: bold;                             /* lihavoidaan kappalemäärä */
+}
+
+.item-disabled .item_qty {
+  color: var(--neutral-dark);                    /* disabloidun tuotteen kappalemäärän väri */
+}
+
+/* -- Settings-komponentti -------------------------------------------- */
+
+.settings > div {
+  display: flex;                                 /* käytetään flexboxia sijoittelussa */
+  flex-wrap: wrap;                               /* sallitaan elementtien rivittyä seuraavalle riville */
+}
+
+/* -- Stat-komponentti ------------------------------------------------ */
+
+.stat {
+  background-color: var(--neutral-light);        /* tilastolaatikon taustaväri */
+  padding: 0.5em;                                /* tilastolaatikon täyte */
+  border-radius: 0.5em;                          /* tilastolaatikon reunan pyöristys */
+  text-align: center;                            /* teksti laatikon keskelle */
+  margin: 0.5em;                                 /* tilastolaatikon ympärillä oleva marginaali */
+  min-width: 5em;                                /* tilastolaatikon minimileveys */
+}
+
+.stat h3 {
+  font-size: 0.8em;                              /* tilastolaatikon otsikon koko */
+  font-weight: normal;                           /* tilastolaatikon otsikon paksuus */
+}
+
+.stat p {
+  font-size: 2em;                                /* tilastolaatikon tekstin koko */
+  font-weight: bold;                             /* tilastolaatikon tekstin paksuus */
+  color: var(--primary);                         /* tilastolaatikon tekstin väri */
+}
+
+/* -- Reset-komponentti ----------------------------------------------- */
+
+.reset {
+  margin: 2em 0.5em 1em 0.5em;                   /* marginaalit */
+  text-align: center;                            /* tekstit keskitetään  */
+}
+
+.reset_box {
+  background-color: var(--neutral-light);        /* laatikon taustaväri */
+  border-radius: 5px;                            /* laatikon reunan pyöristys */
+  padding: 1em;                                  /* täyte laatikon sisällä */
+}
+
+.reset > * {
+  margin: 0.5em 0;                               /* komponentin lapsielementtien ylä- ja alamarginaali */
+}
+
+.reset span {
+  color: var(--neutral-darkest);                 /* korostetun tekstin tekstiväri */
+  font-weight: bold;                             /* korostettu teksti lihavoitu */
+}
+
+.reset input {
+  font-size: 1.25em;                             /* tekstikentän tekstin koko */
+  padding: 0.5em;                                /* tekstikentän täyte */
+  width: 80%;                                    /* tekstikentän leveys koko leveydestä */
+  text-align: center;                            /* tekstikentän teksti keskitetään */
+}
+
+.reset button {                                  
+  background-color: var(--secondary);            /* napin taustaväri */
+  color: #FFFFFF;                              /* napin tekstiväri */
+  padding: 0.75em;                               /* napin täyte */
+  border: none;                                  /* napilla ei ole kehysviivaa */
+  border-radius: 5px;                            /* napin reunan pyöristys */
+  font-size: 1em;                                /* napin tekstikoko */
+}
+
+.reset button:disabled {
+  background-color: var(--neutral-darker);       /* disabloidun napin taustaväri */ 
+  color: var(--neutral);                         /* disabloidun napin tekstiväri */
+}
+
+/* -- media queries --------------------------------------------------- */
+
+@media (max-width: 30em) {
+  .header h1 {
+    font-size: 3em;                              /* pääsivun otsikon koko, kun leveys alle raja-arvon */
+  }
+}
