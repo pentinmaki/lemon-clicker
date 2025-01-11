@@ -2,6 +2,7 @@ import './App.css'
 import { useState } from 'react';
 import AppRouter from './components/AppRouter';
 import items from './config/items.js';
+import round from './utils/round';
 
 
 function App() {
@@ -17,7 +18,8 @@ function App() {
     // Kasvatetaan napautusten lukumäärää yhdellä.
     newstats.clicks = newstats.clicks + 1;
         // Kasvataan sitruunoiden määrää kasvatusarvolla.
-        newstats.balance = newstats.balance + newstats.increase;
+        newstats.balance = round(newstats.balance + newstats.increase,1);
+
     // Tallennetaan päivitetty stats-muuttuja.
     setStats(newstats); 
   }
@@ -26,7 +28,8 @@ function App() {
     // Etsitään tunnistetta vastaavan tuotteen indeksi taulukosta.
     const index = storeitems.findIndex(storeitem => storeitem.id == id);
     // Varmistetaan, että käyttäjällä on varaa ostaa tuote.
-    if (stats.balance >= storeitems[index].price) {
+    newstats.balance = round(newstats.balance - newstoreitems[index].price,1);
+    {
       // Tehdään kopiot tilamuuttujista.
       let newstoreitems = [...storeitems];
       let newstats = {...stats};
@@ -37,7 +40,20 @@ function App() {
             // Lasketaan tuotteen uusi hinta.
             newstoreitems[index].price =
             Math.floor(newstoreitems[index].baseprice * Math.pow(1.15,newstoreitems[index].qty));
-          // TODO lasketaan uusi kasvatusarvo
+                // Koostemuuttujien esittely.
+      let increase = 1;
+      let upgrades = 0;
+      // Käydään tuotteet yksitellen lävitse.
+      for (let i=0; i<storeitems.length; i++) {
+        // Lisätään tuotteiden määrä kokonaismäärään.
+        upgrades = upgrades + storeitems[i].qty;
+        // Lisätään tuotteen vaikutus kasvatusarvoon.
+        increase = increase + storeitems[i].multiplier*storeitems[i].qty;
+      }
+      // Tallennetaan lasketut koostearvot.
+      newstats.increase = increase;
+      newstats.upgrades = upgrades;
+
     
       // Tallennetaan uudet tilamuuttujien arviot.
       setStoreitems(newstoreitems);
