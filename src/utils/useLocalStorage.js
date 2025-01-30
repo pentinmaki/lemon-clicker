@@ -15,7 +15,7 @@ const useLocalStorage = (key, defaultState) => {
   // Tilamuuttujan määrittely, arvoksi haetaan joko
   // localStorage-muuttujan arvo tai alkuarvo.
   const [value, setValue] = useState(
-    encode(localStorage.getItem(key) || null) || defaultState
+    encode(localStorage.getItem(key)||null) || defaultState
   );
 
   // Tallennetaan tilamuuttuja localStorageen aina,

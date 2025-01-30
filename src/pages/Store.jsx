@@ -4,21 +4,19 @@ import getPurchasableItems from '../utils/getPurchasableItems';
 
 function Store(props) {
 
-// Muodostetaan renderöitävä tuotelista.
+  // Muodostetaan renderöitävä tuotelista.
   const items = getPurchasableItems(props.storeitems).map(item => (
     <Item key={item.id}
           item={item}
-          handlePurchase={props.handlePurchase} 
+          handlePurchase={props.handlePurchase}
           disabled={props.stats.balance < item.price} />
   ));
-
-
 
   return (
     <div className="container">
       <Header balance={props.stats.balance}>store</Header>
       <div className="scrollbox items">
-      {items}
+        {items}
       </div>
     </div>
   );

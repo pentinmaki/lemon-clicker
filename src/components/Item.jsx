@@ -1,5 +1,5 @@
-import iconLemon from '../assets/lemon.svg';
 import shortenNumber from '../utils/shortenNumber';
+import iconLemon from '../assets/lemon.svg';
 
 // Funktio, joka selvittää kuvan polun suoritusaikana.
 function getImageUrl(name) {  
@@ -13,8 +13,7 @@ function Item(props) {
 
   return (
     <div className={ props.disabled ? "item item-disabled" : "item" }
-    onClick={()=>{props.handlePurchase(props.item.id)}}>
-
+         onClick={()=>{props.handlePurchase(props.item.id)}}>
       <div className="item_icon"><img src={url} alt=""/></div>
       <div className="item_desc">
         {props.item.name}<br/>

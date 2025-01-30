@@ -5,7 +5,7 @@ function Stat(props) {
     <div className="stat">
       <h3>{props.title}</h3>
       <p>{shortenNumber(props.value)}</p>
-    </div>
+    </div>    
   )
 }
 
