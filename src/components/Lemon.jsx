@@ -1,9 +1,9 @@
-import lemon from '../assets/lemon-big.svg'
-
 function Lemon(props) {
   return (
-    <div className="lemon">
-      <img src={lemon} alt="lemon" onClick={props.onClick} />
+    <div className="cauldron">
+      <button type="button" onClick={props.onClick} aria-label="Brew essence">
+        <span aria-hidden="true">⚗️</span>
+      </button>
     </div>
   );
 }

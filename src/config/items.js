@@ -1,128 +1,128 @@
 export default [
   { 
-    id: "lemontree",
-    name: "Lemon tree",
+    id: "moonherbs",
+    name: "Moon herb garden",
     qty: 0,
     baseprice: 10,
     price: 10,
     multiplier: 0.2,
-    image: "lemontree.svg"
+    icon: "🌿"
   },
   { 
-    id: "blender",
-    name: "Blender",
+    id: "crystalmortar",
+    name: "Crystal mortar",
     qty: 0,
     baseprice: 70,
     price: 70,
     multiplier: 2,
-    image: "blender.svg"
+    icon: "🔮"
   },
   { 
-    id: "carbonator",
-    name: "Carbonator",
+    id: "spellbook",
+    name: "Living spellbook",
     qty: 0,
     baseprice: 490,
     price: 490,
     multiplier: 10,
-    image: "carbonator.svg"
+    icon: "📖"
   },
   { 
-    id: "bottler",
-    name: "Bottler",
+    id: "raven",
+    name: "Raven familiar",
     qty: 0,
     baseprice: 3400,
     price: 3400,
     multiplier: 50,
-    image: "bottler.svg"
+    icon: "🐦‍⬛"
   },
   { 
-    id: "truck",
-    name: "Truck",
+    id: "broomfleet",
+    name: "Broom fleet",
     qty: 0,
     baseprice: 24000,
     price: 24000,
     multiplier: 235,
-    image: "truck.svg"
+    icon: "🧹"
   },
   { 
-    id: "spring",
-    name: "Spring",
+    id: "cauldronroom",
+    name: "Cauldron room",
     qty: 0,
     baseprice: 169000,
     price: 169000,
     multiplier: 1150,
-    image: "spring.svg"
+    icon: "⚗️"
   },
   { 
-    id: "sugarcane",
-    name: "Sugar cane field",
+    id: "mushroomgrove",
+    name: "Mushroom grove",
     qty: 0,
     baseprice: 1200000,
     price: 1200000,
     multiplier: 5600,
-    image: "sugarcane.svg"
+    icon: "🍄"
   },   
   { 
-    id: "warehouse",
-    name: "Warehouse",
+    id: "enchantedtower",
+    name: "Enchanted tower",
     qty: 0,
     baseprice: 8400000,
     price: 8400000,
     multiplier: 27500,
-    image: "warehouse.svg"
+    icon: "🗼"
   }, 
   { 
-    id: "lab",
-    name: "Lab",
+    id: "potionlab",
+    name: "Potion laboratory",
     qty: 0,
     baseprice: 59000000,
     price: 59000000,
     multiplier: 135000,
-    image: "lab.svg"
+    icon: "🧪"
   },
   { 
-    id: "secret",
-    name: "Secret ingredient",
+    id: "dragonscale",
+    name: "Dragon scale reserve",
     qty: 0,
     baseprice: 417000000,
     price: 417000000,
     multiplier: 650000,
-    image: "secret.svg"
+    icon: "🐉"
   },
   {
-    id: "power",
-    name: "Power plant",
+    id: "leyline",
+    name: "Ley line reactor",
     qty: 0,
     baseprice: 2950000000,
     price: 2950000000,
     multiplier: 3200000,
-    image: "power.svg"
+    icon: "✨"
   },
   {
-    id: "park",
-    name: "Amusement park",
+    id: "witchesmarket",
+    name: "Witches' market",
     qty: 0,
     baseprice: 20800000000,
     price: 20800000000,
     multiplier: 15600000,
-    image: "park.svg"
+    icon: "🎪"
   },
   {
-    id: "lemonai",
-    name: "LemonAI",
+    id: "coven",
+    name: "Midnight coven",
     qty: 0,
     baseprice: 147000000000,
     price: 147000000000,
     multiplier: 76100000,
-    image: "lemonai.svg"
+    icon: "🌙"
   },
   {
-    id: "accelerator",
-    name: "Particle accelerator",
+    id: "astralgate",
+    name: "Astral gate",
     qty: 0,
     baseprice: 1040000000000,
     price: 1040000000000,
     multiplier: 371000000,
-    image: "accelerator.svg"
+    icon: "🪐"
   },
 ];

@@ -4,28 +4,27 @@ import ErrorPage from '../pages/ErrorPage';
 import Clicker from '../pages/Clicker';
 import Store from '../pages/Store';
 import Settings from '../pages/Settings';
+import GameContext from '../context/GameContext';
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Root />,
+    errorElement: <ErrorPage />,
+    children: [
+      { index: true, element: <Clicker /> },
+      { path: "store", element: <Store /> },
+      { path: "settings", element: <Settings /> },
+    ]
+  }
+]);
 
 function AppRouter(props) {
- 
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <Root items={props.stats.itemstobuy} />,
-      errorElement: <ErrorPage />,
-      children: [
-        { path: "", element: <Clicker stats={props.stats} handleClick={props.handleClick} /> },
-        { path: "store", element: <Store stats={props.stats}
-                                         storeitems={props.storeitems}
-                                         handlePurchase={props.handlePurchase} />},
-        { path: "settings", element: <Settings stats={props.stats}
-                                               handleReset={props.handleReset} />},
-      ]
-    }
-  ]);
-
   return (
-    <RouterProvider router={router} />
+    <GameContext.Provider value={props}>
+      <RouterProvider router={router} />
+    </GameContext.Provider>
   );
 }
 
-export default AppRouter;     
+export default AppRouter;

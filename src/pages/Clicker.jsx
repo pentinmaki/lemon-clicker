@@ -2,14 +2,17 @@ import Balance from '../components/Balance';
 import Booster from '../components/Booster';
 import Header from '../components/Header';
 import Lemon from '../components/Lemon';
+import useGame from '../hooks/useGame';
 
-function Clicker(props) {
+function Clicker() {
+  const { stats, handleClick } = useGame();
+
   return (
     <div className="container clicker">
-      <Header>lemon clicker</Header>
-      <Balance total={props.stats.balance} />
-      <Lemon onClick={props.handleClick} />
-      <Booster value={props.stats.increase} />
+      <Header>{"witch's workshop"}</Header>
+      <Balance total={stats.balance} />
+      <Lemon onClick={handleClick} />
+      <Booster value={stats.increase} />
     </div>
   );
 }

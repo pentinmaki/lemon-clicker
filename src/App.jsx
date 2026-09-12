@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
 import AppRouter from './components/AppRouter';
 import items from './config/items.js';
 import getPurchasableItems from './utils/getPurchasableItems';
@@ -6,78 +6,123 @@ import round from './utils/round';
 import useLocalStorage from './utils/useLocalStorage';
 import './App.css'
 
+const saveVersion = 2;
+
+const initialstats = {
+  clicks: 0,
+  balance: 0,
+  increase: 1,
+  itemstobuy: 0,
+  upgrades: 0,
+  collected: 0,
+  version: saveVersion
+};
+
+const isValidNumber = (value) => Number.isFinite(value) && value >= 0;
+
+const getItemPrice = (item, qty) =>
+  Math.floor(item.baseprice * Math.pow(1.15, qty));
+
+const countBuyableItems = (items, balance) => {
+  let total = 0;
+  getPurchasableItems(items).forEach(item => {
+    if (item.price <= balance) total++;
+  });
+  return total;
+};
+
+const addDerivedStats = (currentStats, currentItems) => {
+  const upgrades = currentItems.reduce((total, item) => total + item.qty, 0);
+  const increase = round(
+    1 + currentItems.reduce((total, item) => total + item.multiplier * item.qty, 0),
+    1
+  );
+
+  return {
+    ...currentStats,
+    version: saveVersion,
+    increase,
+    upgrades,
+    itemstobuy: countBuyableItems(currentItems, currentStats.balance),
+  };
+};
+
 function App() {
 
   // Esitellään pelin laskennalliset alkuarvot.
-  const initialstats = {
-    clicks: 0,
-    balance: 0,
-    increase: 1,
-    itemstobuy: 0,
-    upgrades: 0,
-    collected: 0
-  }
+
+  const migrateStats = (savedStats) => {
+    if (!savedStats || typeof savedStats !== 'object') return initialstats;
+
+    return {
+      ...initialstats,
+      clicks: isValidNumber(savedStats.clicks) ? savedStats.clicks : 0,
+      balance: isValidNumber(savedStats.balance) ? savedStats.balance : 0,
+      collected: isValidNumber(savedStats.collected) ? savedStats.collected : 0,
+    };
+  };
+
+  const migrateItems = (savedItems) => {
+    if (!Array.isArray(savedItems)) return items;
+
+    return items.map((item, index) => {
+      // Vanhat Lemon Clicker -tallennukset käyttivät eri tunnisteita,
+      // mutta samassa järjestyksessä olevat rakennukset voidaan säilyttää.
+      const savedItem = savedItems.find((candidate) => candidate?.id === item.id)
+        ?? savedItems[index];
+      const qty = Number.isInteger(savedItem?.qty) && savedItem.qty >= 0
+        ? savedItem.qty
+        : 0;
+
+      return { ...item, qty, price: getItemPrice(item, qty) };
+    });
+  };
 
   // Luodaan taltio, johon tallennetaan pelin laskennalliset tiedot.
-  const [stats, setStats, resetStats] = useLocalStorage('lemon-stats',initialstats);
+  const [stats, setStats, resetStats] = useLocalStorage(
+    'lemon-stats', initialstats, migrateStats
+  );
 
   // Luodaan taltio, johon tallennetaan tuotelista.
-  const [storeitems,setStoreitems, resetStoreitems] = useLocalStorage('lemon-items',items);
+  const [storeitems, setStoreitems, resetStoreitems] = useLocalStorage(
+    'lemon-items', items, migrateItems
+  );
 
-  // Laskee niiden tuotteiden lukumäärän, joiden ostamiseen on varaa.
-  const countBuyableItems = (items, balance) => {
-    let total = 0;
-    getPurchasableItems(items).forEach(item => {
-      if (item.price <= balance) total++;
-    });
-    return total;
-  }
+  // Korjaa myös vanhat tallennukset, joissa tuotanto jäi ostoksen verran jälkeen.
+  useEffect(() => {
+    setStats((currentStats) => addDerivedStats(currentStats, storeitems));
+  }, [storeitems, setStats]);
 
   const handleClick = () => {
-    // Tehdään kopio stats-tilamuuttujasta.
-    let newstats = {...stats}
-    // Kasvatetaan napautusten lukumäärää yhdellä.
-    newstats.clicks = newstats.clicks + 1;
-    // Kasvataan sitruunoiden määrää kasvatusarvolla.
-    newstats.balance = round(newstats.balance + newstats.increase,1);
-    // Kasvatetaan sitruunoiden keräysmäärää.
-    newstats.collected = round(newstats.collected + newstats.increase,1);
-    // Lasketaan ostettavissa olevien tuotteiden lukumäärä.
-    newstats.itemstobuy = countBuyableItems(storeitems,newstats.balance);
-    // Tallennetaan päivitetty stats-muuttuja.
-    setStats(newstats);
+    setStats((currentStats) => {
+      const newStats = {
+        ...currentStats,
+        clicks: currentStats.clicks + 1,
+        balance: round(currentStats.balance + currentStats.increase, 1),
+        collected: round(currentStats.collected + currentStats.increase, 1),
+      };
+
+      return addDerivedStats(newStats, storeitems);
+    });
   }
 
   const handlePurchase = (id) => {
     // Etsitään tunnistetta vastaavan tuotteen indeksi taulukosta.
-    const index = storeitems.findIndex(storeitem => storeitem.id == id);
+    const index = storeitems.findIndex(storeitem => storeitem.id === id);
+    const item = storeitems[index];
     // Varmistetaan, että käyttäjällä on varaa ostaa tuote.
-    if (stats.balance >= storeitems[index].price) {
-      // Tehdään kopiot tilamuuttujista.
-      let newstoreitems = JSON.parse(JSON.stringify(storeitems));
+    if (item && stats.balance >= item.price) {
+      const newstoreitems = storeitems.map((storeitem, itemIndex) => {
+        if (itemIndex !== index) return storeitem;
+
+        const qty = storeitem.qty + 1;
+        return { ...storeitem, qty, price: getItemPrice(storeitem, qty) };
+      });
+
       let newstats = {...stats};
-      // Kasvatetaan tuotteiden määrää yhdellä.
-      newstoreitems[index].qty++;
       // Vähännetään varoista tuotteen hinta.
-      newstats.balance = round(newstats.balance - newstoreitems[index].price,1);
-      // Lasketaan tuotteen uusi hinta.
-      newstoreitems[index].price =
-        Math.floor(newstoreitems[index].baseprice * Math.pow(1.15,newstoreitems[index].qty));
-      // Koostemuuttujien esittely.
-      let increase = 1;
-      let upgrades = 0;
-      // Käydään tuotteet yksitellen lävitse.
-      for (let i=0; i<storeitems.length; i++) {
-        // Lisätään tuotteiden määrä kokonaismäärään.
-        upgrades = upgrades + storeitems[i].qty;
-        // Lisätään tuotteen vaikutus kasvatusarvoon.
-        increase = increase + storeitems[i].multiplier*storeitems[i].qty;
-      }
-      // Tallennetaan lasketut koostearvot.
-      newstats.increase = increase;
-      newstats.upgrades = upgrades;
-      // Lasketaan ostettavissa olevien tuotteiden lukumäärä.
-      newstats.itemstobuy = countBuyableItems(newstoreitems,newstats.balance);
+      newstats.balance = round(newstats.balance - item.price,1);
+      newstats = addDerivedStats(newstats, newstoreitems);
       // Tallennetaan uudet tilamuuttujien arviot.
       setStoreitems(newstoreitems);
       setStats(newstats);

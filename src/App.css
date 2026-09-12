@@ -1,16 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Boogaloo&family=Roboto+Condensed:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=MedievalSharp&family=Nunito+Sans:wght@400;700;900&display=swap');
 
 /* -- Värimäärittelyt ------------------------------------------------- */
 
 :root {
-  --primary: #FFB600;
-  --secondary: #E84855;
-  --neutral-lightest: #FFFFFF;
-  --neutral-light: #F3F3F3;
-  --neutral: #EBEBEB;
-  --neutral-dark: #999999;
-  --neutral-darker: #666666;
-  --neutral-darkest: #000000;
+  --primary: #c4a4ff;
+  --secondary: #ec6a9b;
+  --neutral-lightest: #fff9ff;
+  --neutral-light: #2b2040;
+  --neutral: #181225;
+  --neutral-dark: #75688f;
+  --neutral-darker: #d8cfe5;
+  --neutral-darkest: #fff9ff;
 }
 
 /* -- yhteiset tyylimääritykset --------------------------------------- */
@@ -22,14 +22,14 @@
 }
 
 body {
-  background-color: var(--neutral);             /* sovelluksen taustaväri */
+  background: radial-gradient(circle at top, #3a2757 0%, var(--neutral) 58%);
   color: var(--neutral-darker);                   /* sovelluksen tekstiväri */
-  font-family: 'Roboto Condensed', sans-serif;  /* sovelluksen fontti */
+  font-family: 'Nunito Sans', sans-serif;
   font-size: 1.25em;                            /* sovelluksen tekstin koko */
 }
 
 h1 {
-  font-family: 'Boogaloo', cursive;             /* otsikon fontti */
+  font-family: 'MedievalSharp', cursive;
   font-weight: normal;                          /* otsikon paksuus */
 }
 
@@ -123,8 +123,10 @@ h1 {
   opacity: 0.5;                        /* kaikki menuikonit ovat läpinäkyvyviä */
 }
 
-.menu img {
-  height: 3.5em;                       /* menuikonien koko */   
+.menu_symbol {
+  display: block;
+  font-size: 2.8em;
+  line-height: 1;
 }
 
 .menu a.active {
@@ -212,16 +214,24 @@ a.active .menu_badge {
 
 /* -- Lemon-komponentti ----------------------------------------------- */
 
-.lemon {
+.cauldron {
   width: 60%;                          /* kuvan leveys 60% alueen leveydestä */
   margin: 0 auto;                      /* keskitetään kuva */
+  text-align: center;
 }
 
-.lemon img {
-  width: 100%;                         /* skaalataan kuva täyttämään kuvalle varattu alue */
+.cauldron button {
+  width: 100%;
+  display: block;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-size: clamp(8rem, 34vw, 13rem);
+  filter: drop-shadow(0 0 1.2rem rgba(196, 164, 255, 0.45));
 }
 
-.lemon img:active {
+.cauldron button:active span {
   -webkit-animation: beat 0.1s ease-in-out backwards;       /* kuvan animaation */
           animation: beat 0.1s ease-in-out backwards;       /* kuvan animaation */
 }
@@ -248,24 +258,35 @@ a.active .menu_badge {
 .item {
   display: flex;                                 /* käytetään sijoittelussa flexboxia */
   justify-content: space-between;                /* asemoidaan sisältö sekä vasempaan että oikeaan */
-  background-color: var(--neutral-light);        /* laatikon taustaväri */
+  background-color: rgba(43, 32, 64, 0.88);
   padding: 0.5em;                                /* laatikon sisälle pieni täyte */
   border-radius: 0.5em;                          /* laatikon reunojen pyöristys */
   align-items: center;                           /* keskitetään sisältö pystysuunnassa */
   margin-bottom: 0.75em;                         /* marginaali laatikon alareunaan */
+  width: 100%;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.item:focus-visible,
+.cauldron button:focus-visible,
+.reset button:focus-visible {
+  outline: 3px solid var(--secondary);
+  outline-offset: 3px;
 }
 
 .item-disabled {
   opacity: 0.5;                                  /* osittain läpinäkyvä jos ei valittavissa */
+  cursor: not-allowed;
 }
 
 .item_icon {
   width: 4em;                                    /* ikonialueen koko */
   text-align: center;                            /* keskitetään ikoni keskelle aluetta */
-}
-
-.item_icon img {
-  width: 3em;                                    /* ikonikuvan koko */ 
+  font-size: 2.1em;
 }
 
 .item_desc {
@@ -297,7 +318,7 @@ a.active .menu_badge {
 /* -- Stat-komponentti ------------------------------------------------ */
 
 .stat {
-  background-color: var(--neutral-light);        /* tilastolaatikon taustaväri */
+  background-color: rgba(43, 32, 64, 0.88);
   padding: 0.5em;                                /* tilastolaatikon täyte */
   border-radius: 0.5em;                          /* tilastolaatikon reunan pyöristys */
   text-align: center;                            /* teksti laatikon keskelle */
@@ -324,7 +345,7 @@ a.active .menu_badge {
 }
 
 .reset_box {
-  background-color: var(--neutral-light);        /* laatikon taustaväri */
+  background-color: rgba(43, 32, 64, 0.88);
   border-radius: 5px;                            /* laatikon reunan pyöristys */
   padding: 1em;                                  /* täyte laatikon sisällä */
 }

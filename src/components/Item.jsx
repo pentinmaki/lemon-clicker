@@ -1,26 +1,20 @@
 import shortenNumber from '../utils/shortenNumber';
-import iconLemon from '../assets/lemon.svg';
-
-// Funktio, joka selvittää kuvan polun suoritusaikana.
-function getImageUrl(name) {  
-  return new URL(`../assets/items/${name}`, import.meta.url).href;
-}
 
 function Item(props) {
 
-  // Selvitetään kuvan url.
-  const url = getImageUrl(props.item.image);
-
   return (
-    <div className={ props.disabled ? "item item-disabled" : "item" }
-         onClick={()=>{props.handlePurchase(props.item.id)}}>
-      <div className="item_icon"><img src={url} alt=""/></div>
+    <button className={ props.disabled ? "item item-disabled" : "item" }
+            type="button"
+            disabled={props.disabled}
+            onClick={() => { props.handlePurchase(props.item.id) }}
+            aria-label={`Buy ${props.item.name}`}>
+      <div className="item_icon" aria-hidden="true">{props.item.icon}</div>
       <div className="item_desc">
         {props.item.name}<br/>
-        {shortenNumber(props.item.price)} <img src={iconLemon} alt="lemons" />
+        {shortenNumber(props.item.price)} essence
       </div>
       <div className="item_qty">{props.item.qty}</div>
-    </div>
+    </button>
   );
 
 }

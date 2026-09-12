@@ -1,13 +1,12 @@
 import shortenNumber from '../utils/shortenNumber';
-import iconLemon from '../assets/lemon.svg';
 
 function Header(props) {
 
-  if (props.hasOwnProperty("balance")) {
+  if (Object.hasOwn(props, "balance")) {
     return (
       <div className="header header_sub">
         <h1>{props.children}</h1>
-        <div>{shortenNumber(props.balance)} <img src={iconLemon}/></div>
+        <div>{shortenNumber(props.balance)} <span aria-hidden="true">✦</span></div>
       </div>
     );
   } else {

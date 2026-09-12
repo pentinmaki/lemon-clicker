@@ -7,11 +7,10 @@ function Booster(props) {
   
   return (
     <div className="booster">
-      {value} lemon / click
+      {value} essence / brew
     </div>
   );
   
 }
   
 export default Booster;
-  

@@ -1,28 +1,33 @@
 import { useEffect, useState } from "react";
 
-// Muuttaa muuttujan JSON-merkkijonoksi.
-const decode = (value) => {  
-  return JSON.stringify(value);
-}
+const readStoredValue = (key, defaultState, migrate) => {
+  try {
+    const rawValue = localStorage.getItem(key);
+    if (!rawValue) return defaultState;
 
-// Purkaa JSON-merkkijonon muuttujaksi.
-const encode = (value) => {
-  return JSON.parse(value);
-}
+    return migrate(JSON.parse(rawValue));
+  } catch {
+    // Rikkinäinen tai vanhentunut tallennus ei saa estää pelin käynnistymistä.
+    return defaultState;
+  }
+};
 
-const useLocalStorage = (key, defaultState) => {
+const useLocalStorage = (key, defaultState, migrate = (value) => value) => {
 
-  // Tilamuuttujan määrittely, arvoksi haetaan joko
-  // localStorage-muuttujan arvo tai alkuarvo.
-  const [value, setValue] = useState(
-    encode(localStorage.getItem(key)||null) || defaultState
+  const [value, setValue] = useState(() =>
+    readStoredValue(key, defaultState, migrate)
   );
 
   // Tallennetaan tilamuuttuja localStorageen aina,
   // kun arvo muuttuu.
   useEffect(() => {
-    localStorage.setItem(key, decode(value));
-  },  [value]);
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+    } catch {
+      // Esimerkiksi yksityinen selaustila voi estää tallennuksen.
+      // Peli toimii silti avoinna olevassa selainistunnossa.
+    }
+  }, [key, value]);
 
   // Alkuarvojen palautusfunktio.
   const resetValue = () => {

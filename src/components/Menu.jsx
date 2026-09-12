@@ -1,23 +1,20 @@
 import { NavLink } from "react-router-dom";
-import iconLemon from '../assets/lemon.svg';
-import iconPackage from '../assets/package.svg';
-import iconSettings from '../assets/settings.svg';
 
 function Menu(props) {
 
   return (
     <div className="menu">
       <div>
-        <NavLink to="/"><img src={iconLemon} alt="main" /></NavLink>
+        <NavLink to="/" aria-label="Workshop"><span className="menu_symbol" aria-hidden="true">⚗️</span></NavLink>
       </div>
       <div>
-        <NavLink to="/store">
-          <img src={iconPackage} alt="store" />
+        <NavLink to="/store" aria-label="Arcane market">
+          <span className="menu_symbol" aria-hidden="true">🪄</span>
           { props.items ? <span className="menu_badge">{props.items}</span> : null }
         </NavLink>
       </div>
       <div>
-        <NavLink to="/settings"><img src={iconSettings} alt="settings" /></NavLink>
+        <NavLink to="/settings" aria-label="Grimoire"><span className="menu_symbol" aria-hidden="true">📜</span></NavLink>
       </div>
     </div>
   );

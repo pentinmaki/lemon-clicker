@@ -5,7 +5,7 @@ const numberQuadrillion = Math.pow(10,15);
 
 function shortenNumber(number) {
   if (number > numberQuadrillion) {
-    return (number / numberQuadrillion).toFixed(2) + " Lemollion";
+    return (number / numberQuadrillion).toFixed(2) + " Astral";
   } else if (number > numberTrillion) {
     return (number / numberTrillion).toFixed(2) + " Trillion";
   } else if (number > numberBillion) {
