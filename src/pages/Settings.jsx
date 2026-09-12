@@ -9,15 +9,21 @@ function Settings() {
   return (
     <div className="container">   
       <Header balance={stats.balance}>grimoire</Header>
-      <div className="scrollbox">
+      <div className="scrollbox settings_scroll">
         <div className="settings">
-          <h2>workshop records</h2>
-          <div>
-            <Stat title="stored essence" value={stats.balance} />
-            <Stat title="per brew" value={stats.increase} />
-            <Stat title="essence brewed" value={stats.collected} />
-            <Stat title="brews" value={stats.clicks} />
-            <Stat title="arcane tools" value={stats.upgrades} />
+          <div className="settings_intro">
+            <span aria-hidden="true">✦</span>
+            <div>
+              <h2>workshop records</h2>
+              <p>Your arcane progress, gathered in one place.</p>
+            </div>
+          </div>
+          <div className="stats_grid">
+            <Stat icon="✦" title="stored essence" value={stats.balance} />
+            <Stat icon="⚗" title="per brew" value={stats.increase} />
+            <Stat icon="☾" title="essence brewed" value={stats.collected} />
+            <Stat icon="✧" title="brews" value={stats.clicks} />
+            <Stat icon="📜" title="arcane tools" value={stats.upgrades} />
           </div>
         </div>
         <Reset resetvalue={stats.clicks}

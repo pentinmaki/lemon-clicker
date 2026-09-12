@@ -218,11 +218,48 @@ a.active .menu_badge {
   width: 60%;                          /* kuvan leveys 60% alueen leveydestä */
   margin: 0 auto;                      /* keskitetään kuva */
   text-align: center;
+  position: relative;
+  z-index: 2;
 }
+
+.ambient_mote,
+.ambient_bubble {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ambient_mote {
+  color: #fff4ae;
+  font-size: 1.25em;
+  text-shadow: 0 0 0.75em #fff4ae;
+  opacity: 0;
+  animation: mote-drift 4.5s ease-in-out infinite;
+}
+
+.ambient_mote_one { top: 27%; left: 5%; animation-delay: 0s; }
+.ambient_mote_two { top: 12%; right: 10%; animation-delay: 1.5s; }
+.ambient_mote_three { top: 48%; right: 2%; animation-delay: 3s; }
+
+.ambient_bubble {
+  bottom: 37%;
+  width: 0.42em;
+  height: 0.42em;
+  border-radius: 50%;
+  background: rgba(158, 255, 199, 0.75);
+  box-shadow: 0 0 0.65em rgba(86, 255, 163, 0.85);
+  opacity: 0;
+  animation: bubble-rise 3.8s ease-in infinite;
+}
+
+.ambient_bubble_one { left: 40%; animation-delay: 0.3s; }
+.ambient_bubble_two { left: 57%; animation-delay: 1.55s; }
+.ambient_bubble_three { left: 48%; animation-delay: 2.65s; }
 
 .cauldron button {
   width: 100%;
   display: block;
+  position: relative;
   padding: 0;
   border: 0;
   background: transparent;
@@ -231,26 +268,113 @@ a.active .menu_badge {
   filter: drop-shadow(0 0 1.2rem rgba(196, 164, 255, 0.45));
 }
 
-.cauldron button:active span {
-  -webkit-animation: beat 0.1s ease-in-out backwards;       /* kuvan animaation */
-          animation: beat 0.1s ease-in-out backwards;       /* kuvan animaation */
+.cauldron_icon {
+  display: inline-block;
+  transform-origin: 50% 72%;
 }
 
-@keyframes beat {                                /* animaatiomääriteykset */
+.cauldron_icon.is-brewing {
+  animation: cauldron-brew 520ms cubic-bezier(.2, .8, .25, 1);
+}
+
+.brew_sparkles,
+.brew_gain {
+  position: absolute;
+  left: 50%;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.brew_sparkles {
+  top: 37%;
+  color: #fff4ae;
+  font-size: 0.22em;
+  letter-spacing: 0.3em;
+  text-shadow: 0 0 0.45em #fff4ae;
+  animation: sparkles 700ms ease-out both;
+}
+
+.brew_gain {
+  top: 30%;
+  color: #fff9ff;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 0.17em;
+  font-weight: 900;
+  text-shadow: 0 0 0.5em var(--primary);
+  animation: essence-rise 850ms ease-out both;
+}
+
+@keyframes cauldron-brew {
   0% {
-    -webkit-transform: scale(1, 1);              /* lähtötilanteessa kuva täysikokoinen */
-            transform: scale(1, 1);
+    transform: scale(1) rotate(0deg);
+  }
+  28% {
+    transform: scale(0.86, 1.1) rotate(-7deg);
+  }
+  55% {
+    transform: scale(1.12, 0.91) rotate(6deg);
+  }
+  78% {
+    transform: scale(0.96, 1.04) rotate(-3deg);
   }
   100% {
-    -webkit-transform: scale(0.9, 0.9);          /* skaalataan kuva animaatiossa pienemmäksi */
-            transform: scale(0.9, 0.9);          /* animaation jälkeen kuva palaa alkuperäiseen kokoon */
+    transform: scale(1) rotate(0deg);
   }
 }
 
-/* -- booster-div ----------------------------------------------------- */
+@keyframes sparkles {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 20%) scale(0.35) rotate(-12deg);
+  }
+  45% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -115%) scale(1.45) rotate(12deg);
+  }
+}
 
-.booster {
-  text-align: center;                  /* teksti asemoidaan keskelle */
+@keyframes essence-rise {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 45%);
+  }
+  22% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -180%);
+  }
+}
+
+@keyframes mote-drift {
+  0%, 100% {
+    opacity: 0;
+    transform: translateY(0) scale(0.7) rotate(0deg);
+  }
+  22%, 72% {
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(-1.4em) scale(1.08) rotate(18deg);
+  }
+}
+
+@keyframes bubble-rise {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.55);
+  }
+  20% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(0.55em, -4.8em) scale(1.15);
+  }
 }
 
 /* -- Item-komponentti ----------------------------------------------- */
@@ -310,31 +434,93 @@ a.active .menu_badge {
 
 /* -- Settings-komponentti -------------------------------------------- */
 
-.settings > div {
-  display: flex;                                 /* käytetään flexboxia sijoittelussa */
-  flex-wrap: wrap;                               /* sallitaan elementtien rivittyä seuraavalle riville */
+.settings_scroll {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0.25em 0.1em 0.8em;
+}
+
+.settings_intro {
+  display: flex;
+  align-items: center;
+  gap: 0.65em;
+  margin: 0.25em 0.1em 1em;
+}
+
+.settings_intro > span {
+  display: grid;
+  place-items: center;
+  width: 2.2em;
+  height: 2.2em;
+  border: 1px solid rgba(196, 164, 255, 0.34);
+  border-radius: 50%;
+  color: #fff4ae;
+  box-shadow: 0 0 1.2em rgba(196, 164, 255, 0.16);
+}
+
+.settings_intro h2 {
+  font-size: 1.25em;
+  color: var(--neutral-lightest);
+}
+
+.settings_intro p {
+  margin-top: 0.15em;
+  font-size: 0.72em;
+  color: var(--neutral-dark);
+}
+
+.stats_grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65em;
 }
 
 /* -- Stat-komponentti ------------------------------------------------ */
 
 .stat {
-  background-color: rgba(43, 32, 64, 0.88);
-  padding: 0.5em;                                /* tilastolaatikon täyte */
-  border-radius: 0.5em;                          /* tilastolaatikon reunan pyöristys */
-  text-align: center;                            /* teksti laatikon keskelle */
-  margin: 0.5em;                                 /* tilastolaatikon ympärillä oleva marginaali */
-  min-width: 5em;                                /* tilastolaatikon minimileveys */
+  min-width: 0;
+  padding: 0.75em;
+  border: 1px solid rgba(196, 164, 255, 0.08);
+  border-radius: 0.75em;
+  background: linear-gradient(145deg, rgba(53, 38, 79, 0.9), rgba(34, 24, 53, 0.92));
+  box-shadow: 0 0.65em 1.5em rgba(8, 4, 18, 0.16);
+}
+
+.stat:first-child {
+  grid-column: 1 / -1;
+  border-color: rgba(196, 164, 255, 0.28);
+  background: linear-gradient(135deg, rgba(80, 52, 120, 0.92), rgba(43, 28, 66, 0.95));
+}
+
+.stat_heading {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  color: var(--neutral-darker);
+}
+
+.stat_heading > span {
+  color: #fff4ae;
+  font-size: 0.82em;
 }
 
 .stat h3 {
-  font-size: 0.8em;                              /* tilastolaatikon otsikon koko */
-  font-weight: normal;                           /* tilastolaatikon otsikon paksuus */
+  font-size: 0.72em;
+  font-weight: 700;
 }
 
 .stat p {
-  font-size: 2em;                                /* tilastolaatikon tekstin koko */
-  font-weight: bold;                             /* tilastolaatikon tekstin paksuus */
-  color: var(--primary);                         /* tilastolaatikon tekstin väri */
+  margin-top: 0.15em;
+  overflow: hidden;
+  font-size: 1.7em;
+  font-weight: 900;
+  color: var(--primary);
+  text-overflow: ellipsis;
+}
+
+.stat:first-child p {
+  font-size: 2.35em;
 }
 
 /* -- Reset-komponentti ----------------------------------------------- */
@@ -342,6 +528,11 @@ a.active .menu_badge {
 .reset {
   margin: 2em 0.5em 1em 0.5em;                   /* marginaalit */
   text-align: center;                            /* tekstit keskitetään  */
+}
+
+.settings_scroll .reset {
+  margin: auto 0.1em 0;
+  padding-top: 1.5em;
 }
 
 .reset_box {
@@ -367,12 +558,13 @@ a.active .menu_badge {
 }
 
 .reset button {                                  
-  background-color: var(--secondary);            /* napin taustaväri */
-  color: #FFFFFF;                              /* napin tekstiväri */
-  padding: 0.75em;                               /* napin täyte */
-  border: none;                                  /* napilla ei ole kehysviivaa */
-  border-radius: 5px;                            /* napin reunan pyöristys */
-  font-size: 1em;                                /* napin tekstikoko */
+  background-color: rgba(236, 106, 155, 0.13);
+  color: #ffd5e4;
+  padding: 0.65em 0.9em;
+  border: 1px solid rgba(236, 106, 155, 0.48);
+  border-radius: 0.5em;
+  font-size: 0.85em;
+  cursor: pointer;
 }
 
 .reset button:disabled {
