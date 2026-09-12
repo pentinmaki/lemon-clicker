@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title>Witch's Workshop</title>
+  <rect width="512" height="512" rx="112" fill="#241735"/>
+  <circle cx="256" cy="250" r="176" fill="#3a2757"/>
+  <path d="M155 240h202l-18 129c-4 28-28 49-57 49h-52c-29 0-53-21-57-49z" fill="#7652ad"/>
+  <path d="M176 277h160l-11 77c-3 19-19 33-38 33h-62c-19 0-35-14-38-33z" fill="#41d68b"/>
+  <path d="M142 232c0-18 14-32 32-32h164c18 0 32 14 32 32s-14 32-32 32H174c-18 0-32-14-32-32z" fill="#c4a4ff"/>
+  <path d="M176 406l-44 54M336 406l44 54M219 417v45M293 417v45" stroke="#c4a4ff" stroke-linecap="round" stroke-width="20"/>
+  <path d="M384 100l10 28 28 10-28 10-10 28-10-28-28-10 28-10z" fill="#fff4ae"/>
+  <circle cx="219" cy="320" r="12" fill="#fff4ae"/><circle cx="269" cy="344" r="10" fill="#fff4ae"/><circle cx="301" cy="304" r="8" fill="#fff4ae"/>
+</svg>

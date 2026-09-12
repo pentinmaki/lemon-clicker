@@ -66,7 +66,7 @@ function App() {
     if (!Array.isArray(savedItems)) return items;
 
     return items.map((item, index) => {
-      // Vanhat Lemon Clicker -tallennukset käyttivät eri tunnisteita,
+      // Aiemmat tallennukset käyttivät eri tunnisteita,
       // mutta samassa järjestyksessä olevat rakennukset voidaan säilyttää.
       const savedItem = savedItems.find((candidate) => candidate?.id === item.id)
         ?? savedItems[index];

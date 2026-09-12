@@ -1,6 +1,6 @@
 import Balance from '../components/Balance';
 import Header from '../components/Header';
-import Lemon from '../components/Lemon';
+import Cauldron from '../components/Cauldron';
 import useGame from '../hooks/useGame';
 
 function Clicker() {
@@ -10,7 +10,7 @@ function Clicker() {
     <div className="container clicker">
       <Header>{"witch's workshop"}</Header>
       <Balance total={stats.balance} />
-      <Lemon onClick={handleClick} value={stats.increase} />
+      <Cauldron onClick={handleClick} value={stats.increase} />
     </div>
   );
 }

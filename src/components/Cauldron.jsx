@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import shortenNumber from '../utils/shortenNumber';
 
-function Lemon(props) {
+function Cauldron(props) {
   const [brewCount, setBrewCount] = useState(0);
 
   const handleBrew = () => {
@@ -39,5 +39,5 @@ function Lemon(props) {
     </div>
   );
 }
-  
-export default Lemon;
+
+export default Cauldron;
