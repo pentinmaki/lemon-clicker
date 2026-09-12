@@ -21,7 +21,15 @@
   padding: 0;              /* nollataan oletustäytteet */
 }
 
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
 body {
+  min-height: 100dvh;
+  overflow: hidden;
   background: radial-gradient(circle at top, #3a2757 0%, var(--neutral) 58%);
   color: var(--neutral-darker);                   /* sovelluksen tekstiväri */
   font-family: 'Nunito Sans', sans-serif;
@@ -91,7 +99,7 @@ h1 {
 /* -- Root-komponentti ------------------------------------------------ */
 
 .root {
-  height: 100vh;             /* käytetään koko selainikkunan korkeus */
+  height: 100dvh;            /* käytetään koko selainikkunan korkeus */
   max-width: 26em;           /* sovelluksen maksimileveys */
   min-width: 15em;           /* sovelluksen minimileveys */
   margin: 0 auto;            /* keskitys ruudun keskelle */   
@@ -105,12 +113,15 @@ h1 {
 }
 
 .root_content {
+  flex: 1 1 0;
+  min-height: 0;
   overflow: hidden;          /* katkaistaan ylipitkä sivun sisältö */ 
 }
 
 /* -- Menu-komponentti ------------------------------------------------ */
 
 .menu {
+  flex: 0 0 5.5em;
   display: flex;                       /* käytetään flexboxia */
   max-height: 5.5em;                   /* menualueen maksimikorkeus */
   min-height: 5.5em;                   /* menualueen minimikorkeus */ 
@@ -131,6 +142,12 @@ h1 {
 
 .menu a.active {
   opacity: 1;                          /* korostetaan aktiivinen menuelementti */
+}
+
+.menu a:focus-visible {
+  outline: 3px solid var(--secondary);
+  outline-offset: 0.25em;
+  border-radius: 0.4em;
 }
 
 .menu div {
@@ -162,7 +179,79 @@ a.active .menu_badge {
 /* -- Clicker-komponentti --------------------------------------------- */
 
 .clicker {
+  position: relative;
   justify-content: space-evenly;        /* jaetaan tasaisesti pystysuunnassa */
+}
+
+.workshop_settings {
+  position: absolute;
+  z-index: 10;
+  top: 0.35em;
+  right: 0;
+}
+
+.workshop_settings_toggle {
+  display: grid;
+  place-items: center;
+  width: 2.2em;
+  height: 2.2em;
+  border: 1px solid rgba(196, 164, 255, 0.32);
+  border-radius: 50%;
+  background: rgba(43, 32, 64, 0.66);
+  color: var(--neutral-darker);
+  cursor: pointer;
+  font-size: 1em;
+  box-shadow: 0 0.45em 1em rgba(8, 4, 18, 0.16);
+}
+
+.workshop_settings_toggle:hover,
+.workshop_settings_toggle[aria-expanded="true"] {
+  border-color: var(--primary);
+  color: #fff4ae;
+}
+
+.sound_popover {
+  position: fixed;
+  z-index: 20;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 2em;
+  background: rgba(12, 8, 23, 0.54);
+  backdrop-filter: blur(0.2em);
+}
+
+.sound_popover_card {
+  position: relative;
+  width: min(19em, 100%);
+}
+
+.sound_popover .sound_settings {
+  margin: 0;
+  border-color: rgba(196, 164, 255, 0.48);
+  box-shadow: 0 1em 2.5em rgba(8, 4, 18, 0.42);
+}
+
+.sound_popover_close {
+  position: absolute;
+  z-index: 1;
+  top: 0.25em;
+  right: 0.35em;
+  width: 1.55em;
+  height: 1.55em;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--neutral-dark);
+  cursor: pointer;
+  font: inherit;
+  font-size: 1.1em;
+}
+
+.sound_popover_close:hover { color: var(--neutral-lightest); }
+
+.cauldron_area {
+  position: relative;
 }
 
 /* -- Header-komponentti ---------------------------------------------- */
@@ -220,6 +309,21 @@ a.active .menu_badge {
   text-align: center;
   position: relative;
   z-index: 2;
+}
+
+.moon_surge_halo {
+  position: absolute;
+  z-index: -1;
+  top: 18%;
+  left: 50%;
+  width: 4.9em;
+  height: 4.9em;
+  border: 1px solid rgba(255, 244, 174, 0.68);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 244, 174, 0.32), rgba(196, 164, 255, 0.08) 56%, transparent 72%);
+  box-shadow: 0 0 2.2em rgba(255, 244, 174, 0.55);
+  transform: translateX(-50%);
+  animation: moon-surge-pulse 1.4s ease-in-out infinite;
 }
 
 .ambient_mote,
@@ -377,6 +481,51 @@ a.active .menu_badge {
   }
 }
 
+@keyframes moon-surge-pulse {
+  0%, 100% { opacity: 0.55; transform: translateX(-50%) scale(0.92); }
+  50% { opacity: 1; transform: translateX(-50%) scale(1.08); }
+}
+
+.magic_event {
+  position: absolute;
+  z-index: 4;
+  top: -0.35em;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  gap: 0.45em;
+  min-width: max-content;
+  padding: 0.42em 0.65em;
+  border: 1px solid rgba(255, 244, 174, 0.64);
+  border-radius: 2em;
+  background: linear-gradient(110deg, rgba(69, 47, 104, 0.96), rgba(43, 31, 76, 0.96));
+  color: #fff9ff;
+  box-shadow: 0 0 1.5em rgba(196, 164, 255, 0.36);
+  font-size: 0.72em;
+  transform: translateX(-50%);
+  animation: event-arrive 260ms ease-out both;
+}
+
+.magic_event_moon {
+  color: #fff4ae;
+  font-size: 1.4em;
+  line-height: 1;
+}
+
+.magic_event strong { color: #fff4ae; }
+
+.magic_event time {
+  padding-left: 0.4em;
+  border-left: 1px solid rgba(255, 244, 174, 0.35);
+  color: var(--primary);
+  font-weight: 900;
+}
+
+@keyframes event-arrive {
+  from { opacity: 0; transform: translate(-50%, 0.45em) scale(0.9); }
+  to { opacity: 1; transform: translate(-50%, 0) scale(1); }
+}
+
 /* -- Item-komponentti ----------------------------------------------- */
 
 .item {
@@ -397,7 +546,12 @@ a.active .menu_badge {
 
 .item:focus-visible,
 .cauldron button:focus-visible,
-.reset button:focus-visible {
+.reset button:focus-visible,
+.quest_claim:focus-visible,
+.prestige button:focus-visible,
+.sound_settings input:focus-visible,
+.workshop_settings_toggle:focus-visible,
+.sound_popover_close:focus-visible {
   outline: 3px solid var(--secondary);
   outline-offset: 3px;
 }
@@ -470,6 +624,107 @@ a.active .menu_badge {
   color: var(--neutral-dark);
 }
 
+/* -- Achievements-komponentti ---------------------------------------- */
+
+.achievements_scroll {
+  flex: 1;
+  padding: 0.25em 0.1em 0.8em;
+}
+
+.achievements_page .header_sub {
+  align-items: flex-start;
+}
+
+.achievements_page .header_sub h1 {
+  font-size: 2.25em;
+}
+
+.achievements_page .header_sub div {
+  padding-top: 0.3em;
+  font-size: 1em;
+}
+
+.achievements_intro {
+  display: flex;
+  align-items: center;
+  gap: 0.65em;
+  margin: 0.25em 0.1em 1em;
+}
+
+.achievements_intro > span {
+  display: grid;
+  place-items: center;
+  width: 2.2em;
+  height: 2.2em;
+  border: 1px solid rgba(196, 164, 255, 0.34);
+  border-radius: 50%;
+  color: #fff4ae;
+  box-shadow: 0 0 1.2em rgba(196, 164, 255, 0.16);
+}
+
+.achievements_intro h2 {
+  color: var(--neutral-lightest);
+  font-size: 1.25em;
+}
+
+.achievements_intro p {
+  margin-top: 0.15em;
+  color: var(--neutral-dark);
+  font-size: 0.72em;
+}
+
+.achievements_grid {
+  display: grid;
+  gap: 0.65em;
+}
+
+.achievement {
+  display: grid;
+  grid-template-columns: 2.2em minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.55em;
+  padding: 0.7em;
+  border: 1px solid rgba(196, 164, 255, 0.08);
+  border-radius: 0.75em;
+  background: rgba(43, 32, 64, 0.55);
+  opacity: 0.44;
+}
+
+.achievement.is_unlocked {
+  border-color: rgba(196, 164, 255, 0.28);
+  background: linear-gradient(135deg, rgba(71, 48, 103, 0.95), rgba(40, 28, 62, 0.95));
+  box-shadow: 0 0.65em 1.5em rgba(8, 4, 18, 0.15);
+  opacity: 1;
+}
+
+.achievement_icon {
+  display: grid;
+  place-items: center;
+  width: 2.2em;
+  height: 2.2em;
+  border-radius: 50%;
+  background: rgba(196, 164, 255, 0.14);
+  color: #fff4ae;
+  font-size: 1.05em;
+}
+
+.achievement h3 {
+  color: var(--neutral-lightest);
+  font-size: 0.8em;
+}
+
+.achievement p,
+.achievement_status {
+  color: var(--neutral-dark);
+  font-size: 0.62em;
+}
+
+.achievement_status {
+  color: var(--primary);
+  font-weight: 900;
+  text-align: right;
+}
+
 .stats_grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -523,6 +778,245 @@ a.active .menu_badge {
   font-size: 2.35em;
 }
 
+/* -- Daily quest, prestige ja äänet ---------------------------------- */
+
+.daily_quest,
+.prestige,
+.sound_settings {
+  margin-top: 1em;
+  padding: 0.85em;
+  border: 1px solid rgba(196, 164, 255, 0.18);
+  border-radius: 0.8em;
+  background: linear-gradient(145deg, rgba(53, 38, 79, 0.78), rgba(34, 24, 53, 0.9));
+}
+
+.daily_quest_heading,
+.prestige_heading {
+  display: flex;
+  align-items: center;
+  gap: 0.55em;
+}
+
+.daily_quest_heading > span,
+.prestige_heading > span {
+  display: grid;
+  place-items: center;
+  width: 2em;
+  height: 2em;
+  border-radius: 50%;
+  background: rgba(196, 164, 255, 0.14);
+  color: #fff4ae;
+}
+
+.daily_quest h2,
+.prestige h2,
+.sound_settings h2 {
+  color: var(--neutral-lightest);
+  font-size: 1em;
+}
+
+.daily_quest_heading p,
+.prestige_heading p,
+.sound_settings p {
+  margin-top: 0.1em;
+  color: var(--neutral-dark);
+  font-size: 0.65em;
+}
+
+.quest_card {
+  display: grid;
+  grid-template-columns: 2.25em minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.55em;
+  margin-top: 0.7em;
+  padding: 0.6em;
+  border-radius: 0.65em;
+  background: rgba(24, 18, 37, 0.36);
+}
+
+.quest_icon {
+  display: grid;
+  place-items: center;
+  width: 2.1em;
+  height: 2.1em;
+  border-radius: 50%;
+  background: rgba(196, 164, 255, 0.14);
+  color: #fff4ae;
+}
+
+.quest_details h3 {
+  color: var(--neutral-lightest);
+  font-size: 0.78em;
+}
+
+.quest_details p,
+.quest_details small {
+  display: block;
+  color: var(--neutral-dark);
+  font-size: 0.6em;
+}
+
+.quest_progress,
+.prestige_progress {
+  height: 0.34em;
+  overflow: hidden;
+  margin: 0.35em 0 0.25em;
+  border-radius: 1em;
+  background: rgba(196, 164, 255, 0.13);
+}
+
+.quest_progress > span,
+.prestige_progress > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #9e7af2, #fff4ae);
+  box-shadow: 0 0 0.6em rgba(196, 164, 255, 0.75);
+  transition: width 240ms ease-out;
+}
+
+.quest_reward {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff4ae;
+  font-size: 0.72em;
+}
+
+.quest_reward strong { color: var(--primary); }
+
+.quest_claim,
+.prestige_begin {
+  width: 100%;
+  margin-top: 0.7em;
+  padding: 0.55em 0.75em;
+  border: 1px solid rgba(196, 164, 255, 0.45);
+  border-radius: 0.5em;
+  background: rgba(196, 164, 255, 0.15);
+  color: var(--neutral-lightest);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.76em;
+  font-weight: 900;
+}
+
+.quest_claim:disabled,
+.prestige_begin:disabled {
+  border-color: rgba(117, 104, 143, 0.35);
+  background: rgba(117, 104, 143, 0.12);
+  color: var(--neutral-dark);
+  cursor: not-allowed;
+}
+
+.quest_claimed {
+  margin-top: 0.7em;
+  color: #fff4ae;
+  font-size: 0.68em;
+  text-align: center;
+}
+
+.prestige {
+  border-color: rgba(255, 244, 174, 0.27);
+}
+
+.prestige_description {
+  margin-top: 0.65em;
+  color: var(--neutral-darker);
+  font-size: 0.7em;
+  line-height: 1.35;
+}
+
+.prestige_requirement {
+  color: var(--primary);
+  font-size: 0.64em;
+}
+
+.prestige_confirm {
+  margin-top: 0.7em;
+  padding: 0.65em;
+  border-radius: 0.55em;
+  background: rgba(236, 106, 155, 0.09);
+}
+
+.prestige_confirm p {
+  color: #ffd5e4;
+  font-size: 0.65em;
+  line-height: 1.35;
+}
+
+.prestige_cancel {
+  width: 100%;
+  margin-top: 0.45em;
+  padding: 0.4em;
+  border: 0;
+  background: transparent;
+  color: var(--neutral-dark);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.68em;
+}
+
+.sound_settings {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.8em;
+}
+
+.sound_toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  color: var(--neutral-darker);
+  cursor: pointer;
+  font-size: 0.7em;
+  white-space: nowrap;
+}
+
+.sound_toggle input {
+  position: absolute;
+  opacity: 0;
+}
+
+.sound_toggle > span {
+  width: 2.3em;
+  height: 1.25em;
+  padding: 0.15em;
+  border-radius: 1em;
+  background: rgba(117, 104, 143, 0.5);
+  transition: background 160ms ease;
+}
+
+.sound_toggle > span::after {
+  display: block;
+  width: 0.95em;
+  height: 0.95em;
+  border-radius: 50%;
+  background: var(--neutral-lightest);
+  content: '';
+  transition: transform 160ms ease;
+}
+
+.sound_toggle input:checked + span { background: var(--primary); }
+.sound_toggle input:checked + span::after { transform: translateX(1.05em); }
+
+.volume_control {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.5em;
+  color: var(--neutral-dark);
+  font-size: 0.65em;
+}
+
+.volume_control input {
+  width: 100%;
+  accent-color: var(--primary);
+}
+
+.volume_control output { color: var(--primary); font-weight: 900; }
+
 /* -- Reset-komponentti ----------------------------------------------- */
 
 .reset {
@@ -531,8 +1025,8 @@ a.active .menu_badge {
 }
 
 .settings_scroll .reset {
-  margin: auto 0.1em 0;
-  padding-top: 1.5em;
+  margin: 1.5em 0.1em 0;
+  padding-top: 0;
 }
 
 .reset_box {

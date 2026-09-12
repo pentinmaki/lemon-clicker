@@ -17,6 +17,16 @@ The game is designed for quick sessions on desktop or mobile. Progress is saved 
     <td><img src="docs/screenshots/market.png" alt="The Arcane Market upgrade list" width="220"></td>
     <td><img src="docs/screenshots/grimoire.png" alt="The Grimoire statistics page" width="220"></td>
   </tr>
+  <tr>
+    <td align="center"><strong>Achievements</strong></td>
+    <td align="center"><strong>New Moon Ritual</strong></td>
+    <td align="center"><strong>Sound Settings</strong></td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/achievements.png" alt="Arcane milestone achievements" width="220"></td>
+    <td><img src="docs/screenshots/new-moon.png" alt="Daily familiar task and New Moon ritual" width="220"></td>
+    <td><img src="docs/screenshots/sound-settings.png" alt="Workshop sound settings opened from the home screen" width="220"></td>
+  </tr>
 </table>
 
 ## Features
@@ -24,6 +34,9 @@ The game is designed for quick sessions on desktop or mobile. Progress is saved 
 - Click the cauldron to brew essence.
 - Buy magical tools that increase essence gained per brew.
 - Follow your progress in the Grimoire.
+- Complete a changing daily task to earn moonstones.
+- Begin a New Moon ritual to reset tools for a permanent brewing bonus.
+- Unlock arcane milestones and adjust workshop sound settings.
 - Keep progress in browser storage between sessions.
 - Installable progressive web app with offline support.
 - Responsive layout for phone and desktop screens.

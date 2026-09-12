@@ -16,6 +16,9 @@ function Menu(props) {
       <div>
         <NavLink to="/settings" aria-label="Grimoire"><span className="menu_symbol" aria-hidden="true">📜</span></NavLink>
       </div>
+      <div>
+        <NavLink to="/achievements" aria-label="Achievements"><span className="menu_symbol" aria-hidden="true">🏆</span></NavLink>
+      </div>
     </div>
   );
   

@@ -4,6 +4,7 @@ import ErrorPage from '../pages/ErrorPage';
 import Clicker from '../pages/Clicker';
 import Store from '../pages/Store';
 import Settings from '../pages/Settings';
+import Achievements from '../pages/Achievements';
 import GameContext from '../context/GameContext';
 
 const router = createBrowserRouter([
@@ -15,6 +16,7 @@ const router = createBrowserRouter([
       { index: true, element: <Clicker /> },
       { path: "store", element: <Store /> },
       { path: "settings", element: <Settings /> },
+      { path: "achievements", element: <Achievements /> },
     ]
   }
 ]);

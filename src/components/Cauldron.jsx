@@ -10,7 +10,8 @@ function Cauldron(props) {
   };
 
   return (
-    <div className="cauldron">
+    <div className={props.isMoonSurgeActive ? 'cauldron moon_surge_active' : 'cauldron'}>
+      {props.isMoonSurgeActive && <span className="moon_surge_halo" aria-hidden="true" />}
       <span className="ambient_mote ambient_mote_one" aria-hidden="true">✦</span>
       <span className="ambient_mote ambient_mote_two" aria-hidden="true">✧</span>
       <span className="ambient_mote ambient_mote_three" aria-hidden="true">✦</span>
@@ -32,7 +33,7 @@ function Cauldron(props) {
         )}
         {brewCount > 0 && (
           <span key={`gain-${brewCount}`} className="brew_gain" aria-hidden="true">
-            +{shortenNumber(props.value)} essence
+            +{shortenNumber(props.value * (props.isMoonSurgeActive ? 5 : 1))} essence
           </span>
         )}
       </button>
