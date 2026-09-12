@@ -59,7 +59,7 @@ const addDerivedStats = (currentStats, currentItems) => {
     1 + currentItems.reduce((total, item) => total + item.multiplier * item.qty, 0),
     1
   );
-  const boostedIncrease = round(increase * (1 + moonstones * 0.05), 1);
+  const boostedIncrease = round(increase * (1 + moonstones * 0.15), 1);
   const derivedStats = {
     ...currentStats,
     version: saveVersion,

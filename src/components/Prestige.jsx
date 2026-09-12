@@ -12,11 +12,11 @@ function Prestige({ balance, moonstones, rituals, onPrestige, requirement }) {
         <span aria-hidden="true">🌙</span>
         <div>
           <h2 id="new-moon-title">new moon ritual</h2>
-          <p>{rituals} rituals · {moonstones} moonstones · +{moonstones * 5}% permanent brew power</p>
+          <p>{rituals} rituals · {moonstones} moonstones · +{moonstones * 15}% permanent brew power</p>
         </div>
       </div>
       <p className="prestige_description">
-        Begin again with fresh tools while keeping your moonstones forever.
+        Begin again with fresh tools. Moonstones stay forever and awaken a New Moon glow in your workshop.
       </p>
       <div className="prestige_progress" aria-label={`${shortenNumber(balance)} of ${shortenNumber(requirement)} essence`}>
         <span style={{ width: `${progress}%` }} />

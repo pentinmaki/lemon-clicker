@@ -21,6 +21,7 @@ function Clicker() {
         <Cauldron
           onClick={handleClick}
           value={stats.increase}
+          moonstones={stats.moonstones}
           isMoonSurgeActive={Boolean(magicEvent)}
         />
       </div>

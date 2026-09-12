@@ -326,6 +326,66 @@ a.active .menu_badge {
   animation: moon-surge-pulse 1.4s ease-in-out infinite;
 }
 
+.new_moon_aura {
+  position: absolute;
+  z-index: -1;
+  top: 15%;
+  left: 50%;
+  width: 10.6em;
+  height: 10.6em;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 52%, rgba(236, 226, 255, 0.15) 0%, rgba(184, 136, 255, 0.11) 27%, rgba(104, 68, 178, 0.05) 51%, transparent 70%),
+    radial-gradient(circle at 38% 35%, rgba(255, 244, 174, 0.14), transparent 26%);
+  box-shadow: 0 0 2em rgba(157, 116, 247, 0.34), inset 0 0 1.5em rgba(196, 164, 255, 0.16);
+  transform: translateX(-50%);
+  animation: new-moon-glow 4.6s ease-in-out infinite;
+}
+
+.new_moon_orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 94%;
+  height: 37%;
+  border: 1px solid rgba(222, 197, 255, 0.24);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) rotate(-20deg);
+}
+
+.new_moon_orbit_outer {
+  box-shadow: 0 0 0.6em rgba(196, 164, 255, 0.26);
+  animation: orbit-turn 11s linear infinite;
+}
+
+.new_moon_orbit_inner {
+  width: 72%;
+  height: 64%;
+  border-color: rgba(255, 244, 174, 0.2);
+  transform: translate(-50%, -50%) rotate(34deg);
+  animation: orbit-turn-reverse 8s linear infinite;
+}
+
+.new_moon_crescent,
+.new_moon_sparkle {
+  position: absolute;
+  color: #fff4ae;
+  text-shadow: 0 0 0.8em rgba(255, 244, 174, 0.9);
+}
+
+.new_moon_crescent {
+  top: 4%;
+  left: 50%;
+  font-size: 0.82em;
+  transform: translateX(-50%);
+  animation: crescent-drift 4.6s ease-in-out infinite;
+}
+
+.new_moon_sparkle { animation: moon-sparkle 2.8s ease-in-out infinite; }
+.new_moon_sparkle_one { top: 29%; right: 4%; font-size: 0.64em; }
+.new_moon_sparkle_two { bottom: 19%; left: 3%; font-size: 0.5em; animation-delay: 0.9s; }
+.new_moon_sparkle_three { top: 67%; right: 16%; font-size: 0.38em; animation-delay: 1.8s; }
+
 .ambient_mote,
 .ambient_bubble {
   position: absolute;
@@ -378,7 +438,7 @@ a.active .menu_badge {
 }
 
 .cauldron_icon.is-brewing {
-  animation: cauldron-brew 520ms cubic-bezier(.2, .8, .25, 1);
+  animation: cauldron-brew 620ms cubic-bezier(.2, .8, .25, 1);
 }
 
 .brew_sparkles,
@@ -390,22 +450,27 @@ a.active .menu_badge {
 }
 
 .brew_sparkles {
-  top: 37%;
+  z-index: 3;
+  top: 35%;
   color: #fff4ae;
-  font-size: 0.22em;
-  letter-spacing: 0.3em;
-  text-shadow: 0 0 0.45em #fff4ae;
+  font-size: 0.14em;
+  letter-spacing: 0.18em;
+  text-shadow: 0 0 0.55em #fff4ae, 0 0 1em rgba(196, 164, 255, 0.65);
   animation: sparkles 700ms ease-out both;
 }
 
 .brew_gain {
-  top: 30%;
-  color: #fff9ff;
+  z-index: 4;
+  top: 11%;
+  padding: 0;
+  border: 0;
+  color: #fff4ae;
   font-family: 'Nunito Sans', sans-serif;
-  font-size: 0.17em;
+  font-size: 0.135em;
   font-weight: 900;
-  text-shadow: 0 0 0.5em var(--primary);
-  animation: essence-rise 850ms ease-out both;
+  letter-spacing: 0.015em;
+  text-shadow: 0 0 0.6em rgba(255, 244, 174, 0.9), 0 0 1.1em rgba(196, 164, 255, 0.55);
+  animation: essence-rise 850ms cubic-bezier(.16, .72, .3, 1) both;
 }
 
 @keyframes cauldron-brew {
@@ -416,7 +481,8 @@ a.active .menu_badge {
     transform: scale(0.86, 1.1) rotate(-7deg);
   }
   55% {
-    transform: scale(1.12, 0.91) rotate(6deg);
+    transform: scale(1.14, 0.9) rotate(6deg);
+    filter: brightness(1.22) saturate(1.2);
   }
   78% {
     transform: scale(0.96, 1.04) rotate(-3deg);
@@ -429,28 +495,32 @@ a.active .menu_badge {
 @keyframes sparkles {
   from {
     opacity: 0;
-    transform: translate(-50%, 20%) scale(0.35) rotate(-12deg);
+    transform: translate(-50%, 20%) scale(0.3) rotate(-12deg);
   }
   45% {
     opacity: 1;
   }
   to {
     opacity: 0;
-    transform: translate(-50%, -115%) scale(1.45) rotate(12deg);
+    transform: translate(-50%, -105%) scale(1.15) rotate(12deg);
   }
 }
 
 @keyframes essence-rise {
   from {
     opacity: 0;
-    transform: translate(-50%, 45%);
+    transform: translate(-50%, 25%) scale(0.88);
   }
-  22% {
+  15% {
     opacity: 1;
+  }
+  58% {
+    opacity: 1;
+    transform: translate(-50%, -68%) scale(1);
   }
   to {
     opacity: 0;
-    transform: translate(-50%, -180%);
+    transform: translate(-50%, -115%) scale(1.02);
   }
 }
 
@@ -484,6 +554,31 @@ a.active .menu_badge {
 @keyframes moon-surge-pulse {
   0%, 100% { opacity: 0.55; transform: translateX(-50%) scale(0.92); }
   50% { opacity: 1; transform: translateX(-50%) scale(1.08); }
+}
+
+@keyframes new-moon-glow {
+  0%, 100% { opacity: 0.58; transform: translateX(-50%) scale(0.96); }
+  50% { opacity: 1; transform: translateX(-50%) scale(1.035); }
+}
+
+@keyframes orbit-turn {
+  from { transform: translate(-50%, -50%) rotate(-20deg); }
+  to { transform: translate(-50%, -50%) rotate(340deg); }
+}
+
+@keyframes orbit-turn-reverse {
+  from { transform: translate(-50%, -50%) rotate(34deg); }
+  to { transform: translate(-50%, -50%) rotate(-326deg); }
+}
+
+@keyframes crescent-drift {
+  0%, 100% { transform: translate(-50%, 0) rotate(-8deg); }
+  50% { transform: translate(-50%, -0.22em) rotate(8deg); }
+}
+
+@keyframes moon-sparkle {
+  0%, 100% { opacity: 0.3; transform: scale(0.7) rotate(0deg); }
+  50% { opacity: 1; transform: scale(1.2) rotate(20deg); }
 }
 
 .magic_event {
